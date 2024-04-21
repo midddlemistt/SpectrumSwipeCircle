@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct TryNowView: View {
+    var score: Int
+    var highScore: Int
     var onRetry: () -> Void
     @StateObject private var viewModel = GameViewModel()
     @Binding var showGameView: Bool
@@ -27,19 +29,34 @@ struct TryNowView: View {
                     .frame(width: 450, height: 400)
                     .offset(y:50)
                 
+                Image("GameFrame")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 200, height: 200)
+                    .overlay(
+                        VStack {
+                            Text("Score: \(score)")
+                                .foregroundColor(.white)
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Text("Best: \(highScore)")
+                                .foregroundColor(.white)
+                                .font(.title)
+                                .fontWeight(.bold)
+                        }
+                    )
+                
                 
                 HStack{
                     
                     Button(action: onRetry) {
                         Image("Retry")
-                            .padding()
                     }
                     
                     Button(action: {
                         showGameView = false
                     }) {
                         Image("Menu")
-                            .padding()
                     }
                 }
             }

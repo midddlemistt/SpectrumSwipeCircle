@@ -38,33 +38,33 @@ struct GameView: View {
                 
                 // Игровое поле
                 ZStack {
-                                    // Круг с разделенными частями
-                                    Image(viewModel.circleImage)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 385, height: 385)
-                                    
-                                    // Шарик в центре
-                                    Image(viewModel.ballImage)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 75, height: 75)
-                                        .offset(ballOffset)
-                                        .gesture(
-                                            DragGesture()
-                                                .onChanged { value in
-                                                    withAnimation {
-                                                        updateBallOffset(with: value.translation)
-                                                    }
-                                                }
-                                                .onEnded { value in
-                                                    withAnimation {
-                                                        resetBallOffset()
-                                                    }
-                                                    viewModel.handleSwipe(value)
-                                                }
-                                        )
+                    // Круг с разделенными частями
+                    Image(viewModel.circleImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 385, height: 385)
+                    
+                    // Шарик в центре
+                    Image(viewModel.ballImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 75, height: 75)
+                        .offset(ballOffset)
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    withAnimation {
+                                        updateBallOffset(with: value.translation)
+                                    }
                                 }
+                                .onEnded { value in
+                                    withAnimation {
+                                        resetBallOffset()
+                                    }
+                                    viewModel.handleSwipe(value)
+                                }
+                        )
+                }
             }
             
             if viewModel.showYouWin {
@@ -76,39 +76,39 @@ struct GameView: View {
             }
             
             if viewModel.showTryNow {
-                TryNowView(onRetry: {
+                TryNowView(score: viewModel.score, highScore: viewModel.highScore,onRetry: {
                     viewModel.startNewGame()
                 }, showGameView: $showGameView)
             }
         }
         .onAppear {
             viewModel.startNewGame()
-//            resetBallPosition()
+            //            resetBallPosition()
         }
     }
     
     private func updateBallOffset(with translation: CGSize) {
-            var newOffset = translation
-            
-            // Ограничение смещения шарика в пределах круга
-            let maxOffset: CGFloat = 120
-            if newOffset.width > maxOffset {
-                newOffset.width = maxOffset
-            } else if newOffset.width < -maxOffset {
-                newOffset.width = -maxOffset
-            }
-            if newOffset.height > maxOffset {
-                newOffset.height = maxOffset
-            } else if newOffset.height < -maxOffset {
-                newOffset.height = -maxOffset
-            }
-            
-            ballOffset = newOffset
+        var newOffset = translation
+        
+        // Ограничение смещения шарика в пределах круга
+        let maxOffset: CGFloat = 120
+        if newOffset.width > maxOffset {
+            newOffset.width = maxOffset
+        } else if newOffset.width < -maxOffset {
+            newOffset.width = -maxOffset
+        }
+        if newOffset.height > maxOffset {
+            newOffset.height = maxOffset
+        } else if newOffset.height < -maxOffset {
+            newOffset.height = -maxOffset
         }
         
-        private func resetBallOffset() {
-            ballOffset = .zero
-        }}
+        ballOffset = newOffset
+    }
+    
+    private func resetBallOffset() {
+        ballOffset = .zero
+    }}
 
 #Preview {
     MenuView()

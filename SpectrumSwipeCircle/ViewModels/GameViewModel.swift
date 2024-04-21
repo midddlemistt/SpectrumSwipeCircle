@@ -47,6 +47,7 @@ class GameViewModel: ObservableObject {
             if score % 10 == 0 {
                 playSound(sound: "WinSound")
                 showYouWin = true
+                saveHighScore()
                 stopTimer()
             } else {
                 updateCircleAndBall()
@@ -125,13 +126,6 @@ class GameViewModel: ObservableObject {
            }
        }
     
-//    private func shuffleImages() {
-//        let randomBallIndex = Int.random(in: 0..<ballImages.count)
-//        let randomCircleIndex = Int.random(in: 0..<circleImages.count)
-//        
-//        ballImage = ballImages[randomBallIndex]
-//        circleImage = circleImages[randomCircleIndex]
-//    }
     
     private func resetTimer() {
         stopTimer()
@@ -149,6 +143,7 @@ class GameViewModel: ObservableObject {
     private func stopTimer() {
         timer?.invalidate()
         timer = nil
+
     }
     
     private func playSound(sound: String) {
